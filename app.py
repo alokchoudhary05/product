@@ -1,7 +1,6 @@
 from flask import Flask, request, render_template
 import pandas as pd
 import random
-# from flask_sqlalchemy import SQLAlchemy
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
@@ -10,27 +9,6 @@ app = Flask(__name__)
 # load files===========================================================================================================
 trending_products = pd.read_csv("models/trending_products.csv")
 train_data = pd.read_csv("models/clean_data.csv")
-
-# # database configuration---------------------------------------
-# app.secret_key = "alskdjfwoeieiurlskdjfslkdjf"
-# app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:@localhost/ecom"
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# db = SQLAlchemy(app)
-
-
-# # Define your model class for the 'signup' table
-# class Signup(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     username = db.Column(db.String(100), nullable=False)
-#     email = db.Column(db.String(100), nullable=False)
-#     password = db.Column(db.String(100), nullable=False)
-
-# # Define your model class for the 'signup' table
-# class Signin(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     username = db.Column(db.String(100), nullable=False)
-#     password = db.Column(db.String(100), nullable=False)
-
 
 # Recommendations functions============================================================================================
 # Function to truncate product name
@@ -112,42 +90,6 @@ def indexredirect():
                            random_product_image_urls=random_product_image_urls,
                            random_price=random.choice(price))
 
-# @app.route("/signup", methods=['POST','GET'])
-# def signup():
-#     if request.method=='POST':
-#         username = request.form['username']
-#         email = request.form['email']
-#         password = request.form['password']
-
-#         new_signup = Signup(username=username, email=email, password=password)
-#         db.session.add(new_signup)
-#         db.session.commit()
-
-#         # Create a list of random image URLs for each product
-#         random_product_image_urls = [random.choice(random_image_urls) for _ in range(len(trending_products))]
-#         price = [40, 50, 60, 70, 100, 122, 106, 50, 30, 50]
-#         return render_template('index.html', trending_products=trending_products.head(8), truncate=truncate,
-#                                random_product_image_urls=random_product_image_urls, random_price=random.choice(price),
-#                                signup_message='User signed up successfully!'
-#                                )
-
-# # Route for signup page
-# @app.route('/signin', methods=['POST', 'GET'])
-# def signin():
-#     if request.method == 'POST':
-#         username = request.form['signinUsername']
-#         password = request.form['signinPassword']
-#         new_signup = Signin(username=username,password=password)
-#         db.session.add(new_signup)
-#         db.session.commit()
-
-#         # Create a list of random image URLs for each product
-#         random_product_image_urls = [random.choice(random_image_urls) for _ in range(len(trending_products))]
-#         price = [40, 50, 60, 70, 100, 122, 106, 50, 30, 50]
-#         return render_template('index.html', trending_products=trending_products.head(8), truncate=truncate,
-#                                random_product_image_urls=random_product_image_urls, random_price=random.choice(price),
-#                                signup_message='User signed in successfully!'
-#                                )
 @app.route("/recommendations", methods=['POST', 'GET'])
 def recommendations():
     if request.method == 'POST':
