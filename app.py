@@ -78,7 +78,8 @@ def index():
 
 @app.route("/main")
 def main():
-    return render_template('main.html')
+    content_based_rec = pd.DataFrame()  # P4501
+    return render_template('main.html', content_based_rec=content_based_rec)  # P4501
 
 # routes
 @app.route("/index")
